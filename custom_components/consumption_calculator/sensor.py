@@ -4,7 +4,7 @@ from typing import Any
 
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CURRENCY_EUR, UnitOfEnergy, UnitOfPower
+from homeassistant.const import UnitOfEnergy, UnitOfPower
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
@@ -66,14 +66,12 @@ ENTITY_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
         key="current_15min_cost",
         translation_key="current_15min_cost",
         icon=SENSOR_ICONS["current_15min_cost"],
-        native_unit_of_measurement=CURRENCY_EUR,
         suggested_display_precision=4,
     ),
     SensorEntityDescription(
         key="current_cost_per_hour",
         translation_key="current_cost_per_hour",
         icon=SENSOR_ICONS["current_cost_per_hour"],
-        native_unit_of_measurement=CURRENCY_EUR,
         suggested_display_precision=4,
     ),
 )
