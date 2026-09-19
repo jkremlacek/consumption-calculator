@@ -20,7 +20,9 @@
       "energy_from_home_solar_kW": { "name": "Energie z domácího soláru" },
       "grid_energy_15min_kwh": { "name": "Energie ze sítě (15 min)" },
       "shared_energy_15min_kwh": { "name": "Energie ze sdílené sítě (15 min)" },
-      "home_solar_energy_15min_kwh": { "name": "Energie z domácího soláru (15 min)" },
+      "home_solar_energy_15min_kwh": {
+        "name": "Energie z domácího soláru (15 min)"
+      },
       "current_15min_cost": { "name": "Aktuální cena (15 min)" },
       "current_cost_per_hour": { "name": "Aktuální cena za hodinu" }
     }
