@@ -23,6 +23,7 @@ ENTITY_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="energy_from_grid_kW",
         translation_key="energy_from_grid_kW",
+        name="Energy from grid",
         icon=SENSOR_ICONS["energy_from_grid_kW"],
         native_unit_of_measurement=UnitOfPower.KILO_WATT,
         suggested_display_precision=2,
@@ -30,6 +31,7 @@ ENTITY_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="energy_from_shared_network_kW",
         translation_key="energy_from_shared_network_kW",
+        name="Energy from shared network",
         icon=SENSOR_ICONS["energy_from_shared_network_kW"],
         native_unit_of_measurement=UnitOfPower.KILO_WATT,
         suggested_display_precision=2,
@@ -37,6 +39,7 @@ ENTITY_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="energy_from_home_solar_kW",
         translation_key="energy_from_home_solar_kW",
+        name="Energy from home solar",
         icon=SENSOR_ICONS["energy_from_home_solar_kW"],
         native_unit_of_measurement=UnitOfPower.KILO_WATT,
         suggested_display_precision=2,
@@ -44,6 +47,7 @@ ENTITY_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="grid_energy_15min_kwh",
         translation_key="grid_energy_15min_kwh",
+        name="Grid energy 15 min",
         icon=SENSOR_ICONS["grid_energy_15min_kwh"],
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         suggested_display_precision=3,
@@ -51,6 +55,7 @@ ENTITY_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="shared_energy_15min_kwh",
         translation_key="shared_energy_15min_kwh",
+        name="Shared energy 15 min",
         icon=SENSOR_ICONS["shared_energy_15min_kwh"],
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         suggested_display_precision=3,
@@ -58,6 +63,7 @@ ENTITY_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="home_solar_energy_15min_kwh",
         translation_key="home_solar_energy_15min_kwh",
+        name="Home solar energy 15 min",
         icon=SENSOR_ICONS["home_solar_energy_15min_kwh"],
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         suggested_display_precision=3,
@@ -65,12 +71,14 @@ ENTITY_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
         key="current_15min_cost",
         translation_key="current_15min_cost",
+        name="Current 15 min cost",
         icon=SENSOR_ICONS["current_15min_cost"],
         suggested_display_precision=4,
     ),
     SensorEntityDescription(
         key="current_cost_per_hour",
         translation_key="current_cost_per_hour",
+        name="Current cost per hour",
         icon=SENSOR_ICONS["current_cost_per_hour"],
         suggested_display_precision=4,
     ),
@@ -79,6 +87,8 @@ ENTITY_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
 
 class ConsumptionCalculatorSensor(SensorEntity):
     """Expose one calculated value for the current 15-minute settlement window."""
+
+    _attr_has_entity_name = True
 
     def __init__(
         self,
@@ -90,7 +100,7 @@ class ConsumptionCalculatorSensor(SensorEntity):
         self.entity_description = description
         self._config = config
         self._attr_unique_id = f"{DOMAIN}_{description.key}"
-        self._attr_name = description.translation_key
+        self._attr_name = description.name or description.translation_key
 
     @property
     def native_value(self) -> float | None:

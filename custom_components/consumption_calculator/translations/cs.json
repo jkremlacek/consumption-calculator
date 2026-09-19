@@ -1,0 +1,28 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Consumption Calculator",
+        "data": {
+          "consumption_sensor": "Senzor domácí spotřeby (kW)",
+          "sharing_sensor": "Senzor dostupnosti sdílené sítě (kW)",
+          "home_solar_sensor": "Volitelný senzor domácího solárního výkonu (kW)",
+          "electricity_price": "Cena elektřiny za kWh",
+          "distribution_price": "Cena distribuce za kWh"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "energy_from_grid_kW": { "name": "Energie ze sítě" },
+      "energy_from_shared_network_kW": { "name": "Energie ze sdílené sítě" },
+      "energy_from_home_solar_kW": { "name": "Energie z domácího soláru" },
+      "grid_energy_15min_kwh": { "name": "Energie ze sítě (15 min)" },
+      "shared_energy_15min_kwh": { "name": "Energie ze sdílené sítě (15 min)" },
+      "home_solar_energy_15min_kwh": { "name": "Energie z domácího soláru (15 min)" },
+      "current_15min_cost": { "name": "Aktuální cena (15 min)" },
+      "current_cost_per_hour": { "name": "Aktuální cena za hodinu" }
+    }
+  }
+}

@@ -12,5 +12,17 @@
         }
       }
     }
+  },
+  "entity": {
+    "sensor": {
+      "energy_from_grid_kW": { "name": "Energy from grid" },
+      "energy_from_shared_network_kW": { "name": "Energy from shared network" },
+      "energy_from_home_solar_kW": { "name": "Energy from home solar" },
+      "grid_energy_15min_kwh": { "name": "Grid energy (15 min)" },
+      "shared_energy_15min_kwh": { "name": "Shared network energy (15 min)" },
+      "home_solar_energy_15min_kwh": { "name": "Home solar energy (15 min)" },
+      "current_15min_cost": { "name": "Current cost (15 min)" },
+      "current_cost_per_hour": { "name": "Current cost per hour" }
+    }
   }
 }
