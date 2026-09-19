@@ -26,6 +26,9 @@
         "name": "Current shared network cost (15 min)"
       },
       "current_grid_cost_15min": { "name": "Current grid cost (15 min)" },
+      "current_cost_history_dataset": {
+        "name": "Current cost history dataset"
+      },
       "current_cost_per_hour": { "name": "Current cost per hour" }
     }
   }

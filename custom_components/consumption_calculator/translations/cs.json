@@ -28,6 +28,9 @@
         "name": "Aktuální cena sdílené sítě (15 min)"
       },
       "current_grid_cost_15min": { "name": "Aktuální cena ze sítě (15 min)" },
+      "current_cost_history_dataset": {
+        "name": "Historická datasetová data nákladů"
+      },
       "current_cost_per_hour": { "name": "Aktuální cena za hodinu" }
     }
   }

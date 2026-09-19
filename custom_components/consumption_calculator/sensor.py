@@ -1,12 +1,19 @@
 from __future__ import annotations
 
+from datetime import timedelta
 from typing import Any
+
+try:
+    from homeassistant.components.recorder import history as recorder_history
+except ImportError:  # pragma: no cover - only needed in Home Assistant runtime
+    recorder_history = None
 
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfEnergy, UnitOfPower
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.util import dt as dt_util
 
 from .const import (
     CONF_CONSUMPTION_SENSOR,
@@ -90,6 +97,13 @@ ENTITY_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
         suggested_display_precision=4,
     ),
     SensorEntityDescription(
+        key="current_cost_history_dataset",
+        translation_key="current_cost_history_dataset",
+        name="Current cost history dataset",
+        icon=SENSOR_ICONS["current_cost_history_dataset"],
+        suggested_display_precision=4,
+    ),
+    SensorEntityDescription(
         key="current_cost_per_hour",
         translation_key="current_cost_per_hour",
         name="Current cost per hour",
@@ -129,6 +143,7 @@ class ConsumptionCalculatorSensor(SensorEntity):
             "current_15min_cost": "total_cost",
             "current_shared_cost_15min": "shared_cost",
             "current_grid_cost_15min": "grid_cost",
+            "current_cost_history_dataset": "total_cost",
             "current_cost_per_hour": "current_cost_per_hour",
         }
         return values.get(key_map.get(self.entity_description.key, self.entity_description.key))
@@ -149,13 +164,77 @@ class ConsumptionCalculatorSensor(SensorEntity):
         )
 
     @property
-    def extra_state_attributes(self) -> dict[str, float]:
+    def extra_state_attributes(self) -> dict[str, Any]:
+        if self.entity_description.key == "current_cost_history_dataset":
+            return {"series": self._build_plot_dataset()}
+
         values = self._compute_values()
         return {
             "shared_used_kW": values["shared_used_kW"],
             "home_solar_used_kW": values["home_solar_used_kW"],
             "grid_used_kW": values["grid_used_kW"],
         }
+
+    def _build_plot_dataset(self) -> list[dict[str, Any]]:
+        if recorder_history is None:
+            current = self.hass.states.get("sensor.current_15min_cost")
+            return [
+                {
+                    "name": "Total cost",
+                    "points": [
+                        {
+                            "x": current.last_updated.isoformat() if current else dt_util.utcnow().isoformat(),
+                            "y": float(current.state) if current and current.state not in ("unknown", "unavailable") else 0.0,
+                        }
+                    ],
+                }
+            ]
+
+        start = dt_util.utcnow() - timedelta(hours=24)
+        end = dt_util.utcnow()
+        series_names = [
+            ("sensor.current_15min_cost", "Total cost"),
+            ("sensor.current_shared_cost_15min", "Shared network cost"),
+            ("sensor.current_grid_cost_15min", "Grid cost"),
+        ]
+
+        series: list[dict[str, Any]] = []
+        for entity_id, label in series_names:
+            state_history = recorder_history.get_significant_states(
+                self.hass,
+                start,
+                end,
+                [entity_id],
+                include_start_time_state=True,
+                minimal_response=True,
+            )
+            points: list[dict[str, Any]] = []
+            for state in state_history.get(entity_id, []):
+                value = state.state
+                if value in ("unknown", "unavailable", None):
+                    continue
+                try:
+                    points.append({
+                        "x": state.last_updated.isoformat(),
+                        "y": float(value),
+                    })
+                except (TypeError, ValueError):
+                    continue
+
+            if not points:
+                current = self.hass.states.get(entity_id)
+                if current and current.state not in ("unknown", "unavailable"):
+                    try:
+                        points.append({
+                            "x": current.last_updated.isoformat(),
+                            "y": float(current.state),
+                        })
+                    except (TypeError, ValueError):
+                        pass
+
+            series.append({"name": label, "points": points})
+
+        return series
 
 
 async def async_setup_entry(

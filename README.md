@@ -79,9 +79,12 @@ The integration exposes:
 - `current_15min_cost`
 - `current_shared_cost_15min`
 - `current_grid_cost_15min`
+- `current_cost_history_dataset`
 - `current_cost_per_hour`
 
-These values are designed to work with Home Assistant’s built-in charts and history graphs.
+The `current_cost_history_dataset` sensor exposes a JSON-like `series` attribute with the last 24 hours of cost values for `Total cost`, `Shared network cost`, and `Grid cost`, which is suitable for custom charting widgets that consume a plotting dataset instead of standard state history.
+
+These values are designed to work with Home Assistant’s built-in charts and history graphs, and the dataset sensor is intended for custom chart components that need an explicit multi-series time-value payload.
 
 ## Example chart over time
 
@@ -93,22 +96,23 @@ A practical dashboard can show the total 15-minute cost together with the two co
 - series 2: `current_shared_cost_15min` — shared-network portion
 - series 3: `current_grid_cost_15min` — remaining grid portion
 
-Example Lovelace YAML:
+A practical dashboard should consume the `current_cost_history_dataset` sensor and render the `series` payload in a charting component designed for time-value plotting.
+
+Example Lovelace YAML using the dataset sensor with a custom plotting card:
 
 ```yaml
-type: history-graph
+type: custom:my-plot-card
 title: 15-minute electricity cost
-hours_to_show: 24
-entities:
-  - entity: sensor.current_15min_cost
-    name: Total cost
-  - entity: sensor.current_shared_cost_15min
-    name: Shared network cost
-  - entity: sensor.current_grid_cost_15min
-    name: Grid cost
+dataset: sensor.current_cost_history_dataset
+series:
+  - name: Total cost
+  - name: Shared network cost
+  - name: Grid cost
 ```
 
-If your entity IDs differ slightly because of naming in your instance, adjust the entity names accordingly. This version shows the three relevant values side by side over time without stacking, so you can compare the total with the shared and non-shared components directly.
+The exact card syntax depends on the plotting frontend you use, but the important part is that the chart reads the `series` attribute on `sensor.current_cost_history_dataset` instead of interpreting the individual cost sensors as state-history entries.
+
+This version gives a true 2D chart for the three relevant values over time, so you can compare the total with the shared and non-shared components directly.
 
 This gives a clear view of how each 15-minute settlement window is composed while still keeping the true billing basis on 15-minute calculation windows.
 
