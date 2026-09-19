@@ -1,0 +1,16 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Consumption Calculator",
+        "data": {
+          "consumption_sensor": "Home consumption sensor (kW)",
+          "sharing_sensor": "Shared network availability sensor (kW)",
+          "home_solar_sensor": "Optional home solar sensor (kW)",
+          "electricity_price": "Electricity price per kWh",
+          "distribution_price": "Distribution price per kWh"
+        }
+      }
+    }
+  }
+}
