@@ -68,7 +68,6 @@ class ConsumptionCalculatorLogicTests(unittest.TestCase):
         self.assertIn("current_15min_cost", sensor_keys)
         self.assertIn("current_shared_cost_15min", sensor_keys)
         self.assertIn("current_grid_cost_15min", sensor_keys)
-        self.assertIn("current_cost_history_dataset", sensor_keys)
 
 
 if __name__ == "__main__":

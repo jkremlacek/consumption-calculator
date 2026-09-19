@@ -22,6 +22,5 @@ SENSOR_ICONS = {
     "current_15min_cost": "mdi:cash",
     "current_shared_cost_15min": "mdi:cash-plus",
     "current_grid_cost_15min": "mdi:cash-minus",
-    "current_cost_history_dataset": "mdi:chart-line",
     "current_cost_per_hour": "mdi:currency-usd",
 }
