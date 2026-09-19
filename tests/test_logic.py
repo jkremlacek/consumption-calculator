@@ -1,6 +1,7 @@
 import unittest
 
 from custom_components.consumption_calculator.logic import calculate_window
+from custom_components.consumption_calculator.sensor import ENTITY_DESCRIPTIONS
 
 
 class ConsumptionCalculatorLogicTests(unittest.TestCase):
@@ -60,6 +61,13 @@ class ConsumptionCalculatorLogicTests(unittest.TestCase):
         self.assertAlmostEqual(result["home_solar_used_kW"], 2.0)
         self.assertAlmostEqual(result["grid_used_kW"], 0.0)
         self.assertAlmostEqual(result["total_cost"], 0.0)
+
+    def test_cost_component_sensors_exist(self):
+        sensor_keys = {entity.key for entity in ENTITY_DESCRIPTIONS}
+
+        self.assertIn("current_15min_cost", sensor_keys)
+        self.assertIn("current_shared_cost_15min", sensor_keys)
+        self.assertIn("current_grid_cost_15min", sensor_keys)
 
 
 if __name__ == "__main__":

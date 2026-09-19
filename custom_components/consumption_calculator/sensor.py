@@ -76,6 +76,20 @@ ENTITY_DESCRIPTIONS: tuple[SensorEntityDescription, ...] = (
         suggested_display_precision=4,
     ),
     SensorEntityDescription(
+        key="current_shared_cost_15min",
+        translation_key="current_shared_cost_15min",
+        name="Current shared cost (15 min)",
+        icon=SENSOR_ICONS["current_shared_cost_15min"],
+        suggested_display_precision=4,
+    ),
+    SensorEntityDescription(
+        key="current_grid_cost_15min",
+        translation_key="current_grid_cost_15min",
+        name="Current grid cost (15 min)",
+        icon=SENSOR_ICONS["current_grid_cost_15min"],
+        suggested_display_precision=4,
+    ),
+    SensorEntityDescription(
         key="current_cost_per_hour",
         translation_key="current_cost_per_hour",
         name="Current cost per hour",
@@ -113,6 +127,8 @@ class ConsumptionCalculatorSensor(SensorEntity):
             "shared_energy_15min_kwh": "shared_energy_kwh",
             "home_solar_energy_15min_kwh": "home_solar_energy_kwh",
             "current_15min_cost": "total_cost",
+            "current_shared_cost_15min": "shared_cost",
+            "current_grid_cost_15min": "grid_cost",
             "current_cost_per_hour": "current_cost_per_hour",
         }
         return values.get(key_map.get(self.entity_description.key, self.entity_description.key))

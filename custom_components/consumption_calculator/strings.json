@@ -22,6 +22,10 @@
       "shared_energy_15min_kwh": { "name": "Shared network energy (15 min)" },
       "home_solar_energy_15min_kwh": { "name": "Home solar energy (15 min)" },
       "current_15min_cost": { "name": "Current cost (15 min)" },
+      "current_shared_cost_15min": {
+        "name": "Current shared network cost (15 min)"
+      },
+      "current_grid_cost_15min": { "name": "Current grid cost (15 min)" },
       "current_cost_per_hour": { "name": "Current cost per hour" }
     }
   }

@@ -20,5 +20,7 @@ SENSOR_ICONS = {
     "shared_energy_15min_kwh": "mdi:flash",
     "home_solar_energy_15min_kwh": "mdi:weather-sunny",
     "current_15min_cost": "mdi:cash",
+    "current_shared_cost_15min": "mdi:cash-plus",
+    "current_grid_cost_15min": "mdi:cash-minus",
     "current_cost_per_hour": "mdi:currency-usd",
 }

@@ -77,37 +77,40 @@ The integration exposes:
 - `shared_energy_15min_kwh`
 - `home_solar_energy_15min_kwh`
 - `current_15min_cost`
+- `current_shared_cost_15min`
+- `current_grid_cost_15min`
 - `current_cost_per_hour`
 
 These values are designed to work with Home Assistant’s built-in charts and history graphs.
 
 ## Example chart over time
 
-A practical dashboard can show the billed cost for each 15-minute slot together with the hourly equivalent:
+A practical dashboard can show the total 15-minute cost together with the two cost components for each settlement window.
 
 - X axis: time, grouped in 15-minute intervals
-- Y axis: cost in EUR
-- series 1: `current_15min_cost` — actual settlement-window cost
-- series 2: `current_cost_per_hour` — normalized equivalent for easier reading
+- Y axis: local currency selected in Home Assistant
+- series 1: `current_15min_cost` — total cost for the window
+- series 2: `current_shared_cost_15min` — shared-network portion
+- series 3: `current_grid_cost_15min` — remaining grid portion
 
-Example trend:
+Example Lovelace YAML:
 
-```text
-€
-0.30 |                      ╭─────╮
-0.25 |                  ╭────╯     ╰────╮
-0.20 |        ╭─────╯                   ╰─╮
-0.15 |   ╭────╯                            ╰────
-0.10 |  ╰──────────────────────────────────────────
-     +---------------------------------------------->
-       08:00  08:15  08:30  08:45  09:00  09:15
-
-Legend:
-  current_15min_cost       = settlement-window billed cost
-  current_cost_per_hour    = normalized display equivalent
+```yaml
+type: history-graph
+title: 15-minute electricity cost
+hours_to_show: 24
+entities:
+  - entity: sensor.current_15min_cost
+    name: Total cost
+  - entity: sensor.current_shared_cost_15min
+    name: Shared network cost
+  - entity: sensor.current_grid_cost_15min
+    name: Grid cost
 ```
 
-This gives a clear view of price changes over time while still keeping the true billing basis on 15-minute calculation windows.
+If your entity IDs differ slightly because of naming in your instance, adjust the entity names accordingly. This version shows the three relevant values side by side over time without stacking, so you can compare the total with the shared and non-shared components directly.
+
+This gives a clear view of how each 15-minute settlement window is composed while still keeping the true billing basis on 15-minute calculation windows.
 
 ## License
 
