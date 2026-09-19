@@ -1,5 +1,7 @@
 # Consumption Calculator
 
+[![Open in HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=jkremlacek&repository=consumption-calculator)
+
 Home Assistant custom integration that calculates the cost of household electricity consumption using a 15-minute settlement window.
 
 ## Inputs
@@ -45,7 +47,9 @@ And compute cost:
 
 ## Install via HACS
 
-This repository is set up so it can be used as a HACS custom repository.
+Use the button at the top of this page after publishing the repository to GitHub. It opens the custom repository directly inside Home Assistant.
+
+If you prefer to add it manually:
 
 1. In Home Assistant, open HACS.
 2. Go to Integrations.
