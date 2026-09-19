@@ -6,6 +6,7 @@
   "issue_tracker": "https://github.com/jkremlacek/consumption-calculator/issues",
   "codeowners": ["jkremlacek"],
   "config_flow": true,
+  "icon": "mdi:calculator",
   "iot_class": "local_polling",
   "requirements": []
 }
